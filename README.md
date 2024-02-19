@@ -1,3 +1,24 @@
+# Personal Notes
+
+Create a Kubernetes secret that contains the repo-only access PAT:
+
+```bash
+kubectl create secret generic github-pat --from-literal=GITHUB_PAT=$MLO_GITHUB_PAT
+```
+
+then adapt the `runai submit` command to use that secret:
+
+```bash
+runai -i my-image --comand my-command -e GITHUB_PAT=SECRET:github-pat,GITHUB_PAT
+```
+
+which allows you to clone the repo inside the Pod using
+
+```bash
+git clone https://$GITHUB_PAT@github.com/mohahf19/mlo-sem-project.git
+```
+
+
 # MLO: Getting started with the EPFL Clusters
 This repository contains the basic steps to start running scripts and notebooks on the EPFL Clusters (both IC and RCP) -- so that you don't have to go through the countless documentations by yourself! We also provide scripts that can make your life easier by automating a lot of things. It is based on a similar setup from our friends at TML and CLAIRE, and scripts created by Atli :)
 

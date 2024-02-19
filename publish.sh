@@ -2,7 +2,7 @@
 
 BASE=mlo
 USER=fakhouri # Change this to your GASPAR
-TAG=micromamba-v1   # Change this to the version you want to publish
+TAG=micromamba-v2   # Change this to the version you want to publish
 
 REGISTRY=ic-registry.epfl.ch
 # REGISTRY=docker.io

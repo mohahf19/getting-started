@@ -36,10 +36,9 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
 
-
 # install oh-my-zsh
 # Uses "robbyrussell" theme (original Oh My Zsh theme)
-RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended 
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 RUN chsh -s /bin/zsh root
 
 # Install micromamba
@@ -62,23 +61,28 @@ RUN echo TF_FORCE_GPU_ALLOW_GROWTH='true' >> /etc/environment
 # Set a password for the root
 RUN echo 'root:root' | sudo chpasswd
 
-# # ===== Copy init files to /docker/ folder =====
-RUN mkdir /docker
-# COPY utils/* /docker/
-COPY utils/entrypoint.sh /docker/entrypoint.sh
-RUN chmod +x /docker/*.sh
+# Create and configure user
+ARG USER=fakhouri
+ARG UID=237125
+ARG GID=30133
+ARG GROUP=MLO-unit
+ENV SHELL=/bin/zsh
+ENV HOME=/home/${USER}
 
-CMD ["/bin/zsh"]
+RUN groupadd $GROUP -g $GID && \
+    useradd -m -s $SHELL -N -u $UID -g $GID $USER && \
+    echo "${USER}:${USER}" | chpasswd && \
+    usermod -aG sudo,adm,root ${USER} && \
+    chown -R ${USER}:${GROUP} ${HOME} && \
+    echo "${USER}   ALL = NOPASSWD: ALL" > /etc/sudoers
 
-# copy oh-my-zsh config over to /docker/ folder
-# so that it can be copied to scratch space
-# inside entrypoint.sh
-RUN cp -r /root/.oh-my-zsh/ /docker/.oh-my-zsh/
-RUN cp -r /root/.zshrc /docker/.zshrc
-RUN cp -r /root/.bashrc /docker/.bashrc
-RUN cp -r /root/.profile /docker/.profile
+USER $UID:$GID
 
-# change to home directory
-WORKDIR /root
-ENTRYPOINT ["/docker/entrypoint.sh"]
-# ENTRYPOINT ["/bin/zsh"]
+RUN sudo cp -r /root/.oh-my-zsh /home/${USER}/.oh-my-zsh && \
+    sudo cp /root/.zshrc /home/${USER}/.zshrc && \
+    sudo chown -R ${USER}:${GROUP} /home/${USER}/.oh-my-zsh /home/${USER}/.zshrc
+
+
+WORKDIR ${HOME}
+
+ENTRYPOINT [ "/bin/zsh" ]
