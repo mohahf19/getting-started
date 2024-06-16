@@ -1,4 +1,4 @@
-#! /bin/bash
+t#! /bin/bash
 
 # Submit a job to runai with the following parameters
 
@@ -7,8 +7,9 @@ MY_MLOSCRATCH_DIR=$SHARED_MLOSCRATCH_DIR/homes/$GASPAR_USERNAME
 MAMBA_ROOT_PREFIX=$MY_MLOSCRATCH_DIR/micromamba
 
 runai submit \
-  --name sandbox-cpu \
+  --name sandbox-gpu \
   --interactive \
+  --gpu 1 \
   --image ic-registry.epfl.ch/mlo/fakhouri:pixi-v1 \
   --pvc runai-mlo-$GASPAR_USERNAME-scratch:$SHARED_MLOSCRATCH_DIR \
   --large-shm  \

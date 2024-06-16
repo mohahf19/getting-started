@@ -41,11 +41,10 @@ ENV LC_ALL en_US.UTF-8
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 RUN chsh -s /bin/zsh root
 
-# Install micromamba
-RUN curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba
-RUN mv bin/micromamba /usr/local/bin/micromamba
-# Hook zsh to micromamba
-RUN echo 'eval "$(micromamba shell hook -s zsh)"' >> /root/.zshrc
+# Install pixi
+RUN curl -fsSL https://pixi.sh/install.sh | bash
+# Pixi autocomplete
+RUN echo 'eval "$(pixi completion --shell zsh)"' >> ~/.zshrc
 
 # Setup env
 ENV PATH="usr/local/cuda/bin:${PATH}" \
