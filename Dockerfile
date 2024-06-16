@@ -41,11 +41,6 @@ ENV LC_ALL en_US.UTF-8
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 RUN chsh -s /bin/zsh root
 
-# Install pixi
-RUN curl -fsSL https://pixi.sh/install.sh | bash
-# Pixi autocomplete
-RUN echo 'eval "$(pixi completion --shell zsh)"' >> ~/.zshrc
-
 # Setup env
 ENV PATH="usr/local/cuda/bin:${PATH}" \
     LD_LIBRARY_PATH="/usr/local/cuda/lib64"
@@ -80,6 +75,12 @@ USER $UID:$GID
 RUN sudo cp -r /root/.oh-my-zsh /home/${USER}/.oh-my-zsh && \
     sudo cp /root/.zshrc /home/${USER}/.zshrc && \
     sudo chown -R ${USER}:${GROUP} /home/${USER}/.oh-my-zsh /home/${USER}/.zshrc
+
+# Install pixi
+RUN curl -fsSL https://pixi.sh/install.sh | bash
+
+# Pixi autocomplete
+RUN echo 'eval "$(pixi completion --shell zsh)"' >> ${HOME}/.zshrc
 
 
 WORKDIR ${HOME}

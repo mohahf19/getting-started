@@ -21,19 +21,19 @@ git clone https://$GITHUB_PAT@github.com/mohahf19/mlo-sem-project.git
 Build the docker container using
 
 ```bash
-docker build -t pixi-v1 . 
+docker build -t pixi-v2 . 
 ```
 
 and then tag it
 
 ```bash
-docker tag pixi-v1 ic-registry.epfl.ch/mlo/fakhouri:pixi-v1
+docker tag pixi-v2 ic-registry.epfl.ch/mlo/fakhouri:pixi-v2
 ```
 
 and push
 
 ```bash
-docker push ic-registry.epfl.ch/mlo/fakhouri:pixi-v1 
+docker push ic-registry.epfl.ch/mlo/fakhouri:pixi-v2 
 ```
 
 # MLO: Getting started with the EPFL Clusters

@@ -8,7 +8,7 @@ MY_MLOSCRATCH_DIR=$SHARED_MLOSCRATCH_DIR/homes/$GASPAR_USERNAME
 runai submit \
   --name sandbox-cpu \
   --interactive \
-  --image ic-registry.epfl.ch/mlo/fakhouri:pixi-v1 \
+  --image ic-registry.epfl.ch/mlo/fakhouri:pixi-v2 \
   --pvc runai-mlo-$GASPAR_USERNAME-scratch:$SHARED_MLOSCRATCH_DIR \
   --large-shm  \
   --environment EPFML_LDAP=$GASPAR_USERNAME \
