@@ -4,7 +4,6 @@
 
 SHARED_MLOSCRATCH_DIR=/mnt/mloscratch
 MY_MLOSCRATCH_DIR=$SHARED_MLOSCRATCH_DIR/homes/$GASPAR_USERNAME
-MAMBA_ROOT_PREFIX=$MY_MLOSCRATCH_DIR/micromamba
 
 runai submit \
   --name sandbox-cpu \
@@ -14,6 +13,5 @@ runai submit \
   --large-shm  \
   --environment EPFML_LDAP=$GASPAR_USERNAME \
   --environment MLOSCRATCH_DIR=$MY_MLOSCRATCH_DIR \
-  --environment MAMBA_ROOT_PREFIX=$MAMBA_ROOT_PREFIX \
   --environment GITHUB_PAT=SECRET:github-pat,GITHUB_PAT \
   --command -- sleep infinity 
